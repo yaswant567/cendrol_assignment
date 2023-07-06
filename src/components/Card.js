@@ -3,16 +3,24 @@ import axios from 'axios';
 import './card.css';
 
 const Card = (props) => {
-  const[id, setId] = useState("");
+//   const[id, setId] = useState("");
+  const[selectedCategorie, setSelectedCategorie] = useState("");
   const[window, setWindow] = useState(false);
   const[joke, showJoke] = useState("");
 
-  const handleClick = (id) => {
+  const handleClick = (categorie) => {
     setWindow(true);
-    axios.get("https://api.chucknorris.io/jokes/random?category={id}")
+    setSelectedCategorie(categorie);
+    axios.get(`https://api.chucknorris.io/jokes/random?category=${categorie}`)
         .then((response) => {
             console.log(response);
+            showJoke(response.data.value);
         })
+    
+  }
+
+  const close = () =>{
+    setWindow(false);
   }
   return (
     <div className="cards" >
@@ -23,6 +31,16 @@ const Card = (props) => {
                     <p className="categorie_qty">unlimited jokes on {categorie}</p>
                 </div>)
             })
+        }
+        {
+            window && (
+                <div className="displayJoke">
+                    <button onClick={close}>X</button>
+                    <h2>{selectedCategorie}</h2>
+                    <p>{joke}</p>
+                    <button onClick={() => handleClick(selectedCategorie)}>Next Joke</button>
+                </div>
+            )
         }
     </div>
   )

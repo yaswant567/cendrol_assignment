@@ -17,7 +17,7 @@ const App = () => {
 
   return (
     <div className="App">
-      <span className="name">Chuck Norries</span>
+      <span className="bouncy-txt">Chuck Norries</span>
       <Card categories={categories}/>
     </div>
   );
